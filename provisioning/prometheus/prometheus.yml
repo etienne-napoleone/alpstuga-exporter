@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+  external_labels:
+    monitor: "alpstuga-monitor"
+
+scrape_configs:
+  - job_name: "alpstuga-exporter"
+    static_configs:
+      - targets: ["exporter:9001"]
+        labels:
+          service: "alpstuga"
+    scrape_timeout: 5s
