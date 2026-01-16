@@ -5,6 +5,8 @@ import { Gauge, Registry, collectDefaultMetrics } from "prom-client";
 
 const config = {
   accessToken: process.env.ACCESS_TOKEN,
+  gatewayIP: process.env.GATEWAY_IP,
+  acceptUnauthorized: Boolean(process.env.ACCEPT_UNAUTHORIZED),
   loggingLevel: process.env.LOGGING_LEVEL || "error",
   port: Number(process.env.PORT) || 9001,
   collectDefault: Boolean(process.env.COLLECT_DEFAULT),
@@ -22,7 +24,8 @@ if (!config.accessToken) {
 
 const client = await createDirigeraClient({
   accessToken: config.accessToken,
-  rejectUnauthorized: false,
+  gatewayIP: config.gatewayIP,
+  rejectUnauthorized: !config.acceptUnauthorized,
 });
 
 async function getAlpstugaSensors() {
