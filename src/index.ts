@@ -5,12 +5,13 @@ import { Gauge, Registry, collectDefaultMetrics } from "prom-client";
 
 const config = {
   accessToken: process.env.ACCESS_TOKEN,
-  loggingLevel: process.env.LOGGING_LEVEL ?? "error",
-  port: Number(process.env.PORT) ?? 9001,
+  loggingLevel: process.env.LOGGING_LEVEL || "error",
+  port: Number(process.env.PORT) || 9001,
   collectDefault: Boolean(process.env.COLLECT_DEFAULT),
 };
 
 const log = pino({ level: config.loggingLevel });
+log.debug({ ...config, accessToken: "*******" });
 
 if (!config.accessToken) {
   log.fatal("ACCESS_TOKEN environment variable is required");
@@ -106,7 +107,7 @@ const app = new Hono().get("/metrics", async (c) => {
   return c.text(metrics, 200, { "Content-Type": register.contentType });
 });
 
-export default {
+Bun.serve({
   port: config.port,
   fetch: app.fetch,
-};
+});
