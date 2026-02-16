@@ -1,6 +1,8 @@
 FROM oven/bun:1-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/etienne-napoleone/alpstuga-exporter"
+LABEL org.opencontainers.image.title="Alpstuga Exporter"
+LABEL org.opencontainers.image.description="A Prometheus exporter for Alpstuga"
 
 WORKDIR /app
 
